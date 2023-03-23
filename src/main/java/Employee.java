@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name="employee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="id")
+    @JoinColumn(name="employee_id")
     private List<Task> tasks = new ArrayList<>();
 
     public Employee() {

@@ -1,15 +1,17 @@
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "task")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
-
+    @Column(name = "name")
     private String name;
 
     private String description;
+
     public Task() {
     }
 
