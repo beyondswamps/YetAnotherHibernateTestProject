@@ -9,6 +9,8 @@ public class Task {
     private Long id;
     @Column(name = "name")
     private String name;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Employee employee;
 
     private String description;
 
@@ -42,5 +44,25 @@ public class Task {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
+        return id != null && id.equals(((Task) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

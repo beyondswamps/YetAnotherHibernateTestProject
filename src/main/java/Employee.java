@@ -10,8 +10,12 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="employee_id")
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            mappedBy = "employee",
+            orphanRemoval = true
+    )
+//    @JoinColumn(name = "employee_id")
     private List<Task> tasks = new ArrayList<>();
 
     public Employee() {
@@ -21,6 +25,7 @@ public class Employee {
         this.name = name;
         this.tasks = tasks;
     }
+
 
     public Employee(String name) {
         this.name = name;
@@ -48,5 +53,20 @@ public class Employee {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void addTask(Task task) {
+        tasks.add(task);
+        task.setEmployee(this);
+    }
+
+    public void printTasks() {
+        for (Task task : getTasks()) {
+            System.out.println(task.getName() + ": " + task.getDescription());
+        }
+    }
+    public void removeTask(Task task) {
+        tasks.remove(task);
+        task.setEmployee(null);
     }
 }
