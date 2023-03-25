@@ -9,7 +9,7 @@ public class Task {
     private Long id;
     @Column(name = "name")
     private String name;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Employee employee;
 
     private String description;

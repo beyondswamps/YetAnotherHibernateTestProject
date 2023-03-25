@@ -53,14 +53,13 @@ public class Main {
         session.persist(emp3);
 
         tx.commit();
-        tx = session.beginTransaction();
+        session.clear();
+//        tx = session.beginTransaction();
+//        Task task7 = session.get(Task.class, 2);
+//        System.out.println(task7.getName() +"; "+ task7.getDescription() + "; " + task7.getEmployee().getName());
+        session.createQuery("from Task").getResultList();
 
-        emp2.printTasks();
-        emp2.getTasks().remove(task1);
-        emp2.printTasks();
-        session.remove(emp3);
-
-        tx.commit();
+//        tx.commit();
         sf.close();
     }
 }
