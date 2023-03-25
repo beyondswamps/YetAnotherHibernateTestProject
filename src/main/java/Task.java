@@ -9,7 +9,7 @@ public class Task {
     private Long id;
     @Column(name = "name")
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Employee employee;
 
     private String description;
@@ -61,8 +61,8 @@ public class Task {
         return id != null && id.equals(((Task) o).getId());
     }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+//    @Override
+//    public int hashCode() {
+//        return getClass().hashCode();
+//    }
 }

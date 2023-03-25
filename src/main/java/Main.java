@@ -57,8 +57,10 @@ public class Main {
 //        tx = session.beginTransaction();
 //        Task task7 = session.get(Task.class, 2);
 //        System.out.println(task7.getName() +"; "+ task7.getDescription() + "; " + task7.getEmployee().getName());
-        session.createQuery("from Task").getResultList();
-
+        List<Task> taskList = session.createQuery("from Task").list();
+        for (Task task : taskList) {
+            System.out.println(task + "; " + task.getName() + "; " + task.getDescription());
+        }
 //        tx.commit();
         sf.close();
     }
