@@ -10,13 +10,12 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToMany(
-            cascade = CascadeType.ALL
-    )
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "employee_task",
             joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id")
     )
+//    @JoinColumn(name = "employee_id")
     private List<Task> tasks = new ArrayList<>();
 
     public Employee() {

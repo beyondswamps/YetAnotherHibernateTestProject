@@ -38,6 +38,19 @@ public class Main {
         Task task5 = new Task("TaSk 5", "TaSk 5 DeScription");
         Task task6 = new Task("TaSk 6", "TaSk 6 DeScription");
 
+        Session session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        session.persist(task1);
+        session.persist(task2);
+        session.persist(task3);
+        session.persist(task4);
+        session.persist(task5);
+        session.persist(task6);
+
+        session.persist(emp1);
+        session.persist(emp2);
+        session.persist(emp3);
+
         emp1.getTasks().add(task4);
         emp1.getTasks().add(task6);
         emp1.getTasks().add(task2);
@@ -48,22 +61,29 @@ public class Main {
         emp3.getTasks().add(task3);
         emp3.getTasks().add(task4);
 
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
 
-        session.persist(emp1);
-        session.persist(emp2);
-        session.persist(emp3);
+        task1.getEmployeeList().add(emp1);
+
+
         tx.commit();
 
+//        tx.begin();
+//
+//        Employee emp4 = session.get(Employee.class, 2);
+//        emp4.getTasks().clear();
+//        session.remove(emp4);
+//
+//        tx.commit();
         tx.begin();
 
-        Employee emp4 = session.get(Employee.class, 2);
-//        emp4.getTasks().clear();
-        session.remove(emp4);
+        Task task15 = session.get(Task.class, 1);
+        for (Employee emp : task15.getEmployeeList()) {
+            System.out.println(emp.getId() + " : " + emp.getName());
+        }
+        System.out.println(task15.getEmployeeList().size());
+//        session.remove(task15);
 
         tx.commit();
-
 //
 //        List<Task> taskList = session.createQuery("from Task", Task.class).list();
 //        for (Task task : taskList) {
