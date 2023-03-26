@@ -38,12 +38,12 @@ public class Main {
         Task task5 = new Task("TaSk 5", "TaSk 5 DeScription");
         Task task6 = new Task("TaSk 6", "TaSk 6 DeScription");
 
-        emp1.addTask(task4);
-        emp1.addTask(task6);
-        emp1.addTask(task2);
-        emp2.addTask(task1);
-        emp2.addTask(task5);
-        emp3.addTask(task3);
+        emp1.getTasks().add(task4);
+        emp1.getTasks().add(task6);
+        emp1.getTasks().add(task2);
+        emp2.getTasks().add(task1);
+        emp2.getTasks().add(task5);
+        emp3.getTasks().add(task3);
 
         Session session = sf.openSession();
         Transaction tx = session.beginTransaction();
@@ -53,11 +53,16 @@ public class Main {
         session.persist(emp3);
 
         tx.commit();
-        session.clear();
+
+        tx.begin();
+        Employee emp4 = session.get(Employee.class, 2);
+        session.remove(emp4);
+        tx.commit();
+//        session.clear();
 //        tx = session.beginTransaction();
 //        Task task7 = session.get(Task.class, 2);
 //        System.out.println(task7.getName() +"; "+ task7.getDescription() + "; " + task7.getEmployee().getName());
-        List<Task> taskList = session.createQuery("from Task").list();
+        List<Task> taskList = session.createQuery("from Task", Task.class).list();
         for (Task task : taskList) {
             System.out.println(task + "; " + task.getName() + "; " + task.getDescription());
         }

@@ -12,10 +12,9 @@ public class Employee {
     private String name;
     @OneToMany(
             cascade = CascadeType.ALL,
-            mappedBy = "employee",
             orphanRemoval = true
     )
-//    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id")
     private List<Task> tasks = new ArrayList<>();
 
     public Employee() {
@@ -55,18 +54,18 @@ public class Employee {
         this.id = id;
     }
 
-    public void addTask(Task task) {
-        tasks.add(task);
-        task.setEmployee(this);
-    }
+//    public void addTask(Task task) {
+//        tasks.add(task);
+//        task.setEmployee(this);
+//    }
 
     public void printTasks() {
         for (Task task : getTasks()) {
             System.out.println(task.getName() + ": " + task.getDescription());
         }
     }
-    public void removeTask(Task task) {
-        tasks.remove(task);
-        task.setEmployee(null);
-    }
+//    public void removeTask(Task task) {
+//        tasks.remove(task);
+//        task.setEmployee(null);
+//    }
 }

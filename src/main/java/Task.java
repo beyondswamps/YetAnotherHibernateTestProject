@@ -9,9 +9,6 @@ public class Task {
     private Long id;
     @Column(name = "name")
     private String name;
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Employee employee;
-
     private String description;
 
     public Task() {
@@ -44,14 +41,6 @@ public class Task {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 
     @Override
