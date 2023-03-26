@@ -1,27 +1,30 @@
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name="employee")
+@Table(name = "employee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "employee_task",
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "employee_task",
             joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id")
     )
 //    @JoinColumn(name = "employee_id")
-    private List<Task> tasks = new ArrayList<>();
+    private Set<Task> tasks = new HashSet<>();
 
     public Employee() {
     }
 
-    public Employee(String name, List<Task> tasks) {
+    public Employee(String name, Set<Task> tasks) {
         this.name = name;
         this.tasks = tasks;
     }
@@ -39,11 +42,11 @@ public class Employee {
         this.name = name;
     }
 
-    public List<Task> getTasks() {
+    public Set<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Task> tasks) {
+    public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
     }
 
@@ -55,18 +58,27 @@ public class Employee {
         this.id = id;
     }
 
-//    public void addTask(Task task) {
-//        tasks.add(task);
-//        task.setEmployee(this);
-//    }
-
     public void printTasks() {
         for (Task task : getTasks()) {
             System.out.println(task.getName() + ": " + task.getDescription());
         }
     }
-//    public void removeTask(Task task) {
-//        tasks.remove(task);
-//        task.setEmployee(null);
-//    }
+
+    public void addTask(Task task) {
+        tasks.add(task);
+        task.getEmployeeSet().add(this);
+    }
+
+    public void removeTask(Task task) {
+        tasks.remove(task);
+        task.getEmployeeSet().remove(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

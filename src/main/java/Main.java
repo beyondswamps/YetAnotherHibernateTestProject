@@ -4,9 +4,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 public class Main {
@@ -18,7 +16,6 @@ public class Main {
         props.put(Environment.PASS, "root");
         props.put(Environment.HBM2DDL_AUTO, "create");
         props.put(Environment.SHOW_SQL, "true");
-//        props.put(Environment.FORMAT_SQL, "true");
         props.put(Environment.HIGHLIGHT_SQL, "true");
 
         SessionFactory sf = new Configuration()
@@ -51,19 +48,18 @@ public class Main {
         session.persist(emp2);
         session.persist(emp3);
 
-        emp1.getTasks().add(task4);
-        emp1.getTasks().add(task6);
-        emp1.getTasks().add(task2);
-        emp2.getTasks().add(task1);
-        emp2.getTasks().add(task4);
-        emp2.getTasks().add(task3);
-        emp2.getTasks().add(task5);
-        emp3.getTasks().add(task3);
-        emp3.getTasks().add(task4);
-
-
-        task1.getEmployeeList().add(emp1);
-
+        emp1.addTask(task4);
+        emp1.addTask(task6);
+        emp1.addTask(task2);
+        emp2.addTask(task1);
+        emp2.addTask(task4);
+        emp2.addTask(task3);
+        emp2.addTask(task5);
+        emp3.addTask(task3);
+        emp3.addTask(task4);
+        
+        task3.addEmployee(emp1);
+        task3.removeEmployee(emp2);
 
         tx.commit();
 
@@ -76,12 +72,10 @@ public class Main {
 //        tx.commit();
         tx.begin();
 
-        Task task15 = session.get(Task.class, 1);
-        for (Employee emp : task15.getEmployeeList()) {
-            System.out.println(emp.getId() + " : " + emp.getName());
-        }
-        System.out.println(task15.getEmployeeList().size());
-//        session.remove(task15);
+        Task task15 = session.get(Task.class, 3);
+        System.out.println(task15);
+        System.out.println(Arrays.toString(task15.getEmployeeSet().toArray()));
+        System.out.println(task15.getEmployeeSet().size());
 
         tx.commit();
 //

@@ -1,7 +1,8 @@
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "task")
@@ -14,11 +15,8 @@ public class Task {
     private String name;
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "employee_task",
-            joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"))
-    List<Employee> employeeList = new ArrayList<>();
+    @ManyToMany(mappedBy = "tasks")
+    private Set<Employee> employeeList = new HashSet<>();
 
     public Task() {
     }
@@ -59,11 +57,30 @@ public class Task {
         return id != null && id.equals(((Task) o).getId());
     }
 
-    public List<Employee> getEmployeeList() {
+    public Set<Employee> getEmployeeSet() {
         return employeeList;
     }
 
-    public void setEmployeeList(List<Employee> employeeList) {
+    public void setEmployeeSet(Set<Employee> employeeList) {
         this.employeeList = employeeList;
+    }
+
+    public void addEmployee(Employee emp) {
+        employeeList.add(emp);
+        emp.addTask(this);
+    }
+
+    public void removeEmployee(Employee emp) {
+        employeeList.remove(emp);
+        emp.removeTask(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
