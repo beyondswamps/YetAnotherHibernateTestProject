@@ -1,5 +1,8 @@
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "task")
 public class Task {
@@ -10,6 +13,12 @@ public class Task {
     @Column(name = "name")
     private String name;
     private String description;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "employee_task",
+            joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"))
+    List<Employee> employeeList = new ArrayList<>();
 
     public Task() {
     }
@@ -50,8 +59,11 @@ public class Task {
         return id != null && id.equals(((Task) o).getId());
     }
 
-//    @Override
-//    public int hashCode() {
-//        return getClass().hashCode();
-//    }
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
+    }
 }

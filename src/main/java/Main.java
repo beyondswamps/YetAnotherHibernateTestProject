@@ -54,22 +54,21 @@ public class Main {
         session.persist(emp1);
         session.persist(emp2);
         session.persist(emp3);
-
         tx.commit();
 
         tx.begin();
+
         Employee emp4 = session.get(Employee.class, 2);
-        emp4.getTasks().clear();
+//        emp4.getTasks().clear();
         session.remove(emp4);
+
         tx.commit();
-//        session.clear();
-//        tx = session.beginTransaction();
-//        Task task7 = session.get(Task.class, 2);
-//        System.out.println(task7.getName() +"; "+ task7.getDescription() + "; " + task7.getEmployee().getName());
-        List<Task> taskList = session.createQuery("from Task", Task.class).list();
-        for (Task task : taskList) {
-            System.out.println(task + "; " + task.getName() + "; " + task.getDescription());
-        }
+
+//
+//        List<Task> taskList = session.createQuery("from Task", Task.class).list();
+//        for (Task task : taskList) {
+//            System.out.println(task + "; " + task.getName() + "; " + task.getDescription());
+//        }
 //        tx.commit();
         sf.close();
     }

@@ -13,7 +13,10 @@ public class Employee {
     @ManyToMany(
             cascade = CascadeType.ALL
     )
-//    @JoinColumn(name = "employee_id")
+    @JoinTable(name = "employee_task",
+            joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id")
+    )
     private List<Task> tasks = new ArrayList<>();
 
     public Employee() {
