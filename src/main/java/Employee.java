@@ -10,11 +10,10 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+    @ManyToMany(
+            cascade = CascadeType.ALL
     )
-    @JoinColumn(name = "employee_id")
+//    @JoinColumn(name = "employee_id")
     private List<Task> tasks = new ArrayList<>();
 
     public Employee() {

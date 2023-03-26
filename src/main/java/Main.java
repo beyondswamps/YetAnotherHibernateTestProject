@@ -42,8 +42,11 @@ public class Main {
         emp1.getTasks().add(task6);
         emp1.getTasks().add(task2);
         emp2.getTasks().add(task1);
+        emp2.getTasks().add(task4);
+        emp2.getTasks().add(task3);
         emp2.getTasks().add(task5);
         emp3.getTasks().add(task3);
+        emp3.getTasks().add(task4);
 
         Session session = sf.openSession();
         Transaction tx = session.beginTransaction();
@@ -56,6 +59,7 @@ public class Main {
 
         tx.begin();
         Employee emp4 = session.get(Employee.class, 2);
+        emp4.getTasks().clear();
         session.remove(emp4);
         tx.commit();
 //        session.clear();
